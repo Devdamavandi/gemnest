@@ -1,4 +1,4 @@
-import { antic_didone, cinzel, montserrat, open_sans, playfairDisplay, prata } from "@/lib/fonts";
+import { antic_didone, cinzel, montserrat } from "@/lib/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import {

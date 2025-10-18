@@ -2,7 +2,7 @@
 'use client'
 
 import MenubarComponent from "@/components/menubar";
-import { antic_didone, cinzel, cormorant, liber_baskerville, montserrat, playfairDisplay, prata } from "@/lib/fonts";
+import { antic_didone, cormorant, montserrat, playfairDisplay, prata } from "@/lib/fonts";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from "react";
@@ -12,9 +12,8 @@ import { FaFacebookF, FaInstagram, FaXTwitter } from "react-icons/fa6"
 import { HiOutlineMailOpen } from "react-icons/hi";
 import { MdPhone } from "react-icons/md";
 import { IoLocationOutline } from "react-icons/io5";
-import { PiCopyright, PiSelectionBackgroundLight } from "react-icons/pi";
+import { PiCopyright } from "react-icons/pi";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import Script from "next/script";
 
 const MainPage = () => {
