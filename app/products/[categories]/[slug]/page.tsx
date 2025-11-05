@@ -1,30 +1,23 @@
 
 
 import { prisma } from "@/data/db"
-import dynamic from "next/dynamic"
 import { NextResponse } from "next/server"
 import { notFound } from "next/navigation"
-
-interface ProductPageProps {
-    params: {
-        category: string
-        slug: string
-    }
-}
+import ProductDetails from "@/components/productDetails";
 
 export const revalidate = 1
-const ProductDetails = dynamic(() => import('@/components/productDetails'), { ssr: true })
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({ params }: { params: { categories: string; slug: string } }) {
 
-    const { category, slug } = await params
 
-    if (!slug) return NextResponse.json({ error: 'No slug provided' }, { status: 404 })
+    const { categories, slug } = await params
+
+    if (!slug) notFound()
 
     const product = await prisma.product.findUnique({
         where: { 
             slug,
-            category: { name: { equals: category, mode: 'insensitive' } }
+            category: { name: { equals: categories, mode: 'insensitive' } }
          },
         include: {
             orderItems: true,
@@ -40,27 +33,30 @@ export default async function ProductPage({ params }: ProductPageProps) {
     if (!product) return notFound()
 
   
-    const transformedProduct = {
+       const transformedProduct = {
         id: product.id,
-        name: product?.name ?? "",
-        slug: product?.slug ?? "",
-        description: product?.description ?? "",
-        price: product?.price ?? 0,
-        images: product?.images ?? [],
-        colors: product?.colors ?? [],
-        imagesByColors: product?.imagesByColors ?? {},
-        stoneType: product?.stoneType ?? "",
-        stoneShape: product?.stoneShape ?? "",
-        stoneWeight: product?.stoneWeight ?? "",
-        material: product?.material ?? "",
-        metalPurity: product?.metalPurity ?? "",
+        name: product.name ?? "",
+        slug: product.slug ?? "",
+        description: product.description ?? "",
+        price: product.price ?? 0,
+        images: product.images ?? [],
+        colors: product.colors ?? [],
+        imagesByColors: typeof product.imagesByColors === 'object' && product.imagesByColors !== null
+            ? product.imagesByColors as Record<string, string[]>
+            : {}
+        ,
+        stoneType: product.stoneType ?? "",
+        stoneShape: product.stoneShape ?? "",
+        stoneWeight: product.stoneWeight ?? "",
+        material: product.material ?? "",
+        metalPurity: product.metalPurity ?? "",
         sizes: product.sizes ?? [],
-        stock: product?.stock ?? 0,
-        weight: product?.weight ?? 0,
-        dimensions: product?.dimensions ?? "",
-        discount: product?.discount ?? 0,
-        categoryId: product?.categoryId ?? "",
-        category: product?.category ? { id: product?.categoryId ,  name: product?.category.name } : undefined
+        stock: product.stock ?? 0,
+        weight: product.weight ?? 0,
+        dimensions: product.dimensions ?? "",
+        discount: product.discount ?? 0,
+        categoryId: product.categoryId ?? "",
+        category: product.category ? { id: product.categoryId, name: product.category.name } : undefined
     }
 
     return (
@@ -69,3 +65,4 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </div>
     )
 }
+

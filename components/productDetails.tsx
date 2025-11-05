@@ -5,9 +5,9 @@ import { ProductSchema } from "@/types/zod";
 import ProductImage from "./ProductImage";
 import BreadCrumb from "./breadcrumb";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import MouseTracker from "@/lib/mouseTracker";
-import { antic_didone, cinzel, cormorant, dm_serif_display, inter, liber_baskerville, open_sans, playfairDisplay, poppins, prata, quattrocento, raleway, roboto } from "@/lib/fonts";
+import { useState } from "react";
+// import MouseTracker from "@/lib/mouseTracker";
+import { dm_serif_display, poppins, quattrocento } from "@/lib/fonts";
 
 interface ProductProps {
     product: ProductSchema
@@ -24,7 +24,7 @@ const ProductDetails = ({product}: ProductProps) => {
     const imagesByColors = product.imagesByColors ?? {}
 
 
-    const { x, y } = MouseTracker()
+    // const { x, y } = MouseTracker()
 
 
 

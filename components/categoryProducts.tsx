@@ -4,7 +4,6 @@
 
     import Capitalize from "@/lib/capitalize"
     import { CategorySchema } from "@/types/zod"
-    import Image from "next/image"
     import { useEffect, useState } from "react"
 import ProductCard from "./productCard"
 

@@ -4,8 +4,8 @@
 import MenubarComponent from "@/components/menubar";
 import { antic_didone, cormorant, montserrat, playfairDisplay, prata } from "@/lib/fonts";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef, useState } from "react";
+import { motion } from 'framer-motion'
+import { useState } from "react";
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import FrontHandIcon from '@mui/icons-material/FrontHand';
 import { FaFacebookF, FaInstagram, FaXTwitter } from "react-icons/fa6"
@@ -15,15 +15,12 @@ import { IoLocationOutline } from "react-icons/io5";
 import { PiCopyright } from "react-icons/pi";
 import Link from "next/link";
 import Script from "next/script";
-import { useRouter } from "next/navigation";
-import CategoryProductsPage from "@/components/categoryProducts";
 
 const MainPage = () => {
 
 
     const [heroHovered, setHeroHovered] = useState(false)
 
-    const router = useRouter()
 
     return ( 
         <div className="overflow-x-hidden">

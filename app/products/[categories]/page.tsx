@@ -24,20 +24,29 @@ const ProductsCategories = async ({ params } : props) => {
     if (!catProducts) return notFound()
 
    
-    const safeCatProducts = catProducts?.products?.map(scp => ({
-        id: scp.id,
-        name: scp.name ?? "",
-        slug: scp.slug ?? "",
-        description: scp.description ?? "",
-        images: scp.images ?? [],
-        price: scp.price ?? 0,
-        stock: scp.stock ?? 0,
-        discount: scp.discount ?? 0,
-        weight: scp.weight ?? 0,
-        dimensions: scp.dimensions ?? "",
-        categoryId: scp.categoryId ?? "",
-        category: catProducts ? { id: catProducts.id, name: catProducts.name } : undefined
-    }))
+const safeCatProducts = catProducts?.products?.map(scp => ({
+    id: scp.id,
+    name: scp.name ?? "",
+    slug: scp.slug ?? "",
+    description: scp.description ?? "",
+    images: scp.images ?? [],
+    price: scp.price ?? 0,
+    stock: scp.stock ?? 0,
+    discount: scp.discount ?? 0,
+    weight: scp.weight ?? 0,
+    dimensions: scp.dimensions ?? "",
+    material: scp.material ?? "", // <-- fix here
+    stoneType: scp.stoneType ?? "", // if present in ProductCard
+    stoneShape: scp.stoneShape ?? "", // if present in ProductCard
+    stoneWeight: scp.stoneWeight ?? "", // if present in ProductCard
+    colors: scp.colors ?? [], // if present
+    sizes: scp.sizes ?? [], // if present
+    imagesByColors: typeof scp.imagesByColors === 'object' && scp.imagesByColors !== null
+        ? scp.imagesByColors as Record<string, string[]>
+        : {}, // same fix as before
+    categoryId: scp.categoryId ?? "",
+    category: catProducts ? { id: catProducts.id, name: catProducts.name } : undefined,
+}))
     
     return ( 
         <main>

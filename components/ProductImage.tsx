@@ -1,13 +1,14 @@
 import { ProductSchema } from "@/types/zod";
 import Image from "next/image";
 import { useState } from "react";
+import { string } from "zod";
 
 
 
 const ProductImage = ({ product, admin } : { product: ProductSchema, admin: boolean }) => {
     const [selectedImage, setSelectedImage] = useState('')
 
-    const validImages = product?.images.filter(img => img && img.trim() !== "") || []
+    const validImages = product?.images.filter((img): img is string => typeof img === "string" && img.trim() !== "") || []
     const mainImage = selectedImage || validImages[0] || "/images/default-image.png"
     
     return ( 

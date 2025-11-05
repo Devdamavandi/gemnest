@@ -1,12 +1,10 @@
-import { antic_didone, cinzel, montserrat } from "@/lib/fonts";
+import { antic_didone, cinzel } from "@/lib/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import {
     Tab,
     TabGroup,
     TabList,
-    TabPanel,
-    TabPanels
 } from '@headlessui/react'
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
