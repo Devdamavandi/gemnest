@@ -5,7 +5,7 @@ import MenubarComponent from "@/components/menubar";
 import { antic_didone, cormorant, montserrat, playfairDisplay, prata } from "@/lib/fonts";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import FrontHandIcon from '@mui/icons-material/FrontHand';
 import { FaFacebookF, FaInstagram, FaXTwitter } from "react-icons/fa6"
@@ -15,18 +15,15 @@ import { IoLocationOutline } from "react-icons/io5";
 import { PiCopyright } from "react-icons/pi";
 import Link from "next/link";
 import Script from "next/script";
+import { useRouter } from "next/navigation";
+import CategoryProductsPage from "@/components/categoryProducts";
 
 const MainPage = () => {
-    const heroRef = useRef<HTMLDivElement>(null)
 
-    // Track when hero section scrolls out of view
-    const { scrollYProgress } = useScroll({
-        target: heroRef,
-        offset: ["start start", "end start"]
-    })
 
-    // Map scroll progress to overlay opacity (tweak 0.4 to taste)
-    const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0, 0.8])
+    const [heroHovered, setHeroHovered] = useState(false)
+
+    const router = useRouter()
 
     return ( 
         <div className="overflow-x-hidden">
@@ -34,30 +31,33 @@ const MainPage = () => {
             <MenubarComponent />
 
             {/* Hero Section */}
-            <section ref={heroRef} 
-                 className={`${playfairDisplay.className} text-center relative`}>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1.3, ease: "easeIn" }}
-                >
+            <section className={`${playfairDisplay.className} relative h-screen overflow-hidden`}>
+                
+              
+                {/* Hero Image */}
+                <div className="absolute inset-0 -z-10">
                     <Image
-                        src={'/images/hero.jpg'}
-                        alt="hero image"
-                        width={1920}
-                        height={888}
+                        src="/images/hero.jpg"
+                        alt="hero"
+                        fill
                         priority
-                        className="w-full block select-none"
+                        className={`object-cover transition-opacity duration-700 ${heroHovered ? 'opacity-0' : 'opacity-100'}`}
                     />
-                </motion.div>
-
-
-                {/* Darkening overlay driven by scroll */}
-                <motion.div 
-                    aria-hidden
-                    style={{ opacity: overlayOpacity }}
-                    className="pointer-events-none absolute inset-0 bg-black"
+                    <Image
+                        src="/images/daydream-wedding-ring-front-on.jpg"
+                        alt="hover hero"
+                        fill
+                        priority
+                        className={`transition-opacity duration-700 ${heroHovered ? 'opacity-100' : 'opacity-0'}`}
+                    />
+                </div>
+                
+                {/* In-visible section to change the Hero Image */}
+                <div className="absolute w-full top-1/3 left-0 bg-transparent h-56 z-30" 
+                    onMouseEnter={() => setHeroHovered(true)}
+                    onMouseLeave={() => setHeroHovered(false)}
                 />
+
 
 
 
@@ -69,7 +69,7 @@ const MainPage = () => {
                     className="absolute bottom-32 left-10 z-10"
                 >
                     <motion.button
-                        className="relative px-14 py-4 border cursor-pointer overflow-hidden"
+                        className="relative px-14 py-4 border border-black cursor-pointer overflow-hidden"
                         whileHover="hover"
                         initial="initial"
                         variants={{
@@ -91,10 +91,14 @@ const MainPage = () => {
                 </motion.div>
             </section>
 
+       
+
             {/* Limited Offer Banner - After Hero */}
             <section className="bg-night text-white py-4 text-center">
                 <Link href={'#'} className="text-sm">🎁 Free Engraving on Orders Over $500 | Limited Time Offer!</Link>
             </section>
+
+
             
             {/* Selective Categories Section */}
             <section className="py-10">
@@ -108,12 +112,14 @@ const MainPage = () => {
                             transition={{ duration: 1.5 }}
                         >
                             <div className="w-[400px] h-[550px] group cursor-pointer">
-                            <Image src={'/images/diamond-ring-on-white-space.jpg'} alt="diamond ring"
-                                   width={400} height={900} 
-                                   className="w-full h-full object-cover group-hover:scale-105 group-hover:shadow-2xl transition-transform"
-                            />
-                            <h3 className="text-2xl text-center mt-4">Rings</h3>
-                        </div>
+                                <Link href={`/categories/rings`}>
+                                    <Image src={'/images/diamond-ring-on-white-space.jpg'} alt="diamond ring"
+                                        width={400} height={900}
+                                        className="w-full h-full object-cover group-hover:scale-105 group-hover:shadow-2xl transition-transform"
+                                    />
+                                </Link>
+                                <h3 className="text-2xl text-center mt-4">Rings</h3>
+                            </div>
                         </motion.div>
                         {/* Necklaces */}
                         <motion.div
@@ -122,10 +128,12 @@ const MainPage = () => {
                             transition={{ duration: 1.5 }}
                         >
                             <div className="w-[400px] h-[550px] group cursor-pointer">
-                                <Image src={'/images/woman-pink-wearing-necklace.jpg'} alt="diamond ring"
-                                   width={400} height={900} 
-                                   className="w-full h-full object-cover group-hover:scale-105 group-hover:shadow-2xl transition-transform"
-                                />
+                                <Link href={'/categories/necklaces'}>
+                                    <Image src={'/images/woman-pink-wearing-necklace.jpg'} alt="diamond ring"
+                                       width={400} height={900}
+                                       className="w-full h-full object-cover group-hover:scale-105 group-hover:shadow-2xl transition-transform"
+                                    />
+                                </Link>
                                 <h3 className="text-2xl text-center mt-4">Necklaces</h3>
                             </div>
                         </motion.div>
@@ -348,7 +356,7 @@ const MainPage = () => {
 
             {/* All Collections */}
             <div className="text-center mb-10">
-                <Link href={'#'} className="border border-black px-10 cursor-pointer py-3 hover:bg-night hover:text-white transition-colors"
+                <Link href={'#'} className="border border-black px-16 cursor-pointer py-3 hover:bg-night hover:text-white transition-colors"
                     
                 >
                     Explore All Collections →
@@ -356,7 +364,7 @@ const MainPage = () => {
             </div>
 
             {/* Breaking Line */}
-            <hr className="mt-20 max-w-4xl  text-gray-200/80 text-center mx-auto" /> 
+            <hr className="mt-20 max-w-4xl text-gray-200/80 text-center mx-auto" /> 
 
             
              {/* Behind the Scenes Video */}
@@ -365,9 +373,8 @@ const MainPage = () => {
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.5, ease: 'easeIn' }}
             >
-                <section className={`mt-8 py-14 text-center ${antic_didone.className} `}>
-                <h2 className="text-5xl tracking-wider">Shine Your Diamond</h2>
-                <hr className="max-w-lg text-center mb-4 mx-auto text-gray-50" />
+                <section className={`mt-8 pt-14 text-center ${antic_didone.className} `}>
+                <h2 className="text-5xl tracking-wider pb-4">Shine Your Diamond</h2>
                 <video autoPlay muted loop>
                     <source src="/images/ring-with-a-diamond-video.mp4" type="video/mp4"/>
                     Your browser does not support the video tag.
@@ -553,7 +560,7 @@ const MainPage = () => {
 
                         {/* Customer Service */}
                         <div>
-                            <h4 className={`mb-4 ${prata.className}`}>Customer Care</h4>
+                            <h4 className={`mb-4`}>Customer Care</h4>
                             <ul className="space-y-2 text-sm text-gray-300">
                                 <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
                                 <li><a href="#" className="hover:text-white transition-colors">Shipping Info</a></li>

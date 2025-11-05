@@ -16,13 +16,28 @@ datasource db {
 model Product {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
+  slug String? @unique
   description String?
+  colors String[]    // e.g., “yellow gold”, “rose gold”, “white gold”, “silver”
+  images  String[]  // Array of image URLs
+  imagesByColors Json?
+  sizes  String[]   // ring size or chain length (e.g., “6”, “18 inch”)
+  gender GENDER?
   price Float
   stock Int
-  images  String[]  // Array of image URLs
-  weight Float?
+  material String?        // e.g., “gold”, “silver”, “platinum”
+  metalPurity String?     // e.g., “18K”, “22K”, “925 Sterling”
+  stoneType String?       // e.g., “diamond”, “sapphire”, “emerald”
+  stoneShape String?      // e.g., “round”, “princess”, “oval”
+  stoneWeight String?     // e.g., “0.5 carat”
+  weight Float?           // total jewelry weight (grams)
+  occasion String?        // e.g., “engagement”, “wedding”, “birthday”, “anniversary”
+  collectionTags String?  // Useful for tagging collections (e.g., “new-arrivals”, “bestsellers”)
+  isFeatured Boolean?     // for homepage highlights
   dimensions  String?
   discount  Float?
+
+  shippingInfo String?
 
 
   categoryId String @db.ObjectId
@@ -183,4 +198,9 @@ enum OrderStatus {
   DELIVERED
   CANCELLED
   RETURNED
+}
+enum GENDER {
+  MEN
+  WOMEN
+  UNISEX
 }
