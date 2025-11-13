@@ -40,6 +40,7 @@ const ProductsPage = async () => {
         : {}, // same fix as before
     categoryId: p.categoryId ?? "",
     category: p.category ? { id: p.category.id, name: p.category.name } : undefined,
+    collectionTags: p.collectionTags ?? []
     }))
     
     return ( 

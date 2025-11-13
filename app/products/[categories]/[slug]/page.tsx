@@ -57,7 +57,8 @@ export default async function ProductPage({ params }: { params: { categories: st
         discount: product.discount ?? 0,
         categoryId: product.categoryId ?? "",
         shippingInfo: product.shippingInfo ?? "",
-        category: product.category ? { id: product.categoryId, name: product.category.name } : undefined
+        category: product.category ? { id: product.categoryId, name: product.category.name } : undefined,
+        collectionTags: product.collectionTags ?? []
     }
 
     return (

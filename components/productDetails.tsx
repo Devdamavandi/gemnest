@@ -168,7 +168,7 @@ const ProductDetails = ({product}: ProductProps) => {
                         />
                         <button 
                             className="flex items-start justify-center px-2 w-8 h-8 text-xl border border-gray-200/80 hover:bg-gray-50 cursor-pointer"
-                            onClick={() => product?.id && increaseQuantity(product?.id)}
+                            onClick={() => product?.id && increaseQuantity(product?.id, product?.stock)}
                             >
                             +
                         </button>

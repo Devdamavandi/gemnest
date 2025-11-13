@@ -21,7 +21,7 @@ type CartState = {
     addItem: (item: CartItem, quantity: number) => void
     removeItem: (productId: string) => void
     clearCart: () => void
-    increaseQuantity: (productId: string) => void
+    increaseQuantity: (productId: string, stock: number) => void
     decreaseQuantity: (productId: string) => void
 }
 
