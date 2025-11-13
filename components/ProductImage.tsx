@@ -1,7 +1,6 @@
 import { ProductSchema } from "@/types/zod";
 import Image from "next/image";
 import { useState } from "react";
-import { string } from "zod";
 
 
 
@@ -39,6 +38,7 @@ const ProductImage = ({ product, admin } : { product: ProductSchema, admin: bool
                                 height={62}
                                 onClick={() => setSelectedImage(img)}
                                 className={`object-cover cursor-pointer border-1 ${selectedImage === img && 'border-black'}`}
+                                priority
                             />
                         ))}
                     </div>
@@ -48,7 +48,7 @@ const ProductImage = ({ product, admin } : { product: ProductSchema, admin: bool
             ): (
                 <div className="max-w-4xl flex gap-4">
                     {/* tiny Images */}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col scroll-auto">
                         {validImages && validImages?.map((img, index) => (
                             <Image
                                 key={index}
@@ -58,6 +58,7 @@ const ProductImage = ({ product, admin } : { product: ProductSchema, admin: bool
                                 height={62}
                                 onClick={() => setSelectedImage(img)}
                                 className={`object-cover cursor-pointer border-1 ${selectedImage === img && 'border-black'}`}
+                                priority
                             />
                         ))}
                     </div>

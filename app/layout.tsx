@@ -2,9 +2,11 @@
 
 'use client'
 
+import { usePathname } from "next/navigation";
 // import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/providers/provider";
+import MenubarComponent from "@/components/menubar";
 
 
 // const metadata: Metadata = {
@@ -34,18 +36,32 @@ import { Providers } from "@/providers/provider";
 //   }
 // };
 
+const NoNavRoutes = [
+  "/signin",
+  "/signup",
+  "/portfolio",
+  "/dashboard"
+]
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const pathname = usePathname()
+  
   return (
     <html lang="en">
       <body
         className={`w-full min-h-screen overflow-x-hidden`}
       >
         <Providers>
-          {children}
+          {!NoNavRoutes.some(route => pathname.startsWith(route)) && <MenubarComponent />}
+          <main>
+            {children}
+          </main>
         </Providers>
       </body>
     </html>

@@ -4,7 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import Image from "next/image";
 import { TrimText } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-
+import Link from "next/link";
 
 
 const BasketPopover = () => {
@@ -26,9 +26,9 @@ const BasketPopover = () => {
                     <span className="absolute text-red-500">{count !== 0 && count}</span>
                 </div>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent side="bottom" align="end" sideOffset={8} className="max-h-[400px] w-[400px] overflow-y-auto overflow-x-hidden">
                 {count > 0 ? (
-                    <div className="overflow-y-scroll">
+                    <div className="">
                         {items && items.map((item, index) => (
                             <div key={index} className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-2 py-2">
                                 <Image 
@@ -41,14 +41,14 @@ const BasketPopover = () => {
                                     className="object-cover aspect-square"
                                  />
                                 {/* Increase / Decrease Quantity */}
-                                <div>
+                                <div className="flex">
                                     <button
                                         className="px-2 py-1 hover:bg-gray-300 bg-gray-50 border border-gray-200 cursor-pointer"
                                         onClick={() => decreaseQuantity(item.productId)}
                                     >
                                         -
                                     </button>
-                                    <input type="number" className="w-10 text-center bg-white py-1" readOnly value={item.quantity} />
+                                    <input type="number" className="w-10 text-right bg-white py-1" readOnly value={item.quantity} />
                                     <button
                                         className="px-2 py-1 hover:bg-gray-300 bg-gray-50 border border-gray-200 cursor-pointer"
                                         onClick={() => increaseQuantity(item.productId, item.stock)}
@@ -57,7 +57,9 @@ const BasketPopover = () => {
                                     </button>
                                 </div>
                                 {/* Item name */}
-                                <p>{TrimText(item.name, 50)}</p>
+                                <Link href={`/products/${item.category}/${item.slug}`}>
+                                    <p className="text-left">{TrimText(item.name, 50)}</p>
+                                </Link>
                                 {/* Remove item button */}
                                 <button
                                     className="bg-red-500 hover:bg-red-600 transition cursor-pointer rounded-full flex items-center justify-center text-white w-4 h-4 ml-2"
@@ -73,7 +75,7 @@ const BasketPopover = () => {
                         <div className="mt-4 flex justify-between">
                             <button className="hover:bg-rose-500 hover:text-white px-4 py-2 text-rose-500 border border-rose-500 cursor-pointer" onClick={ClearAll}>Clear All</button>
                             <button
-                                className="text-slate-800 border border-slate-800 hover:bg-slate-800 hover:text-white px-4 py-2 cursor-pointer"
+                                className="text-slate-800 border border-slate-800 hover:bg-black hover:text-white px-4 py-2 cursor-pointer"
                                 disabled={count === 0}
                                 onClick={() => router.push('/checkout')}
                             >

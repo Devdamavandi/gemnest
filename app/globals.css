@@ -11,6 +11,8 @@
     --color-whisper: #EBEAEA;
     --color-slate_gray: #6C757D;
     --color-outer_space: #495057; /* a little more darker than the slate gray */
+    --text-xxs: 0.79rem;     /* Custom Size between xs and sm */
+    --text-xs-plus: 0.84rem;   /* between xs (0.75rem) and sm (0.875rem) */
     }
 
 @theme inline {

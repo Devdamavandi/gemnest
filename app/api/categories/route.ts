@@ -15,7 +15,9 @@ export async function GET(req: Request) {
     if (name === "all") {
         const allCategoryProducts = await prisma.category.findMany({
             include: {
-                products: true
+                products: {
+                    include: { category: true }
+                }
             }
         })
         return NextResponse.json(allCategoryProducts)

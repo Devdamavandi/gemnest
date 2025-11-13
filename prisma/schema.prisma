@@ -30,9 +30,10 @@ model Product {
   stoneType String?       // e.g., “diamond”, “sapphire”, “emerald”
   stoneShape String?      // e.g., “round”, “princess”, “oval”
   stoneWeight String?     // e.g., “0.5 carat”
+  ringSetting String?     // Solitaire, Halo , Three-Stone
   weight Float?           // total jewelry weight (grams)
   occasion String?        // e.g., “engagement”, “wedding”, “birthday”, “anniversary”
-  collectionTags String?  // Useful for tagging collections (e.g., “new-arrivals”, “bestsellers”)
+  collectionTags String[] @default([])  // Useful for tagging collections (e.g., “new-arrivals”, “bestsellers”)
   isFeatured Boolean?     // for homepage highlights
   dimensions  String?
   discount  Float?

@@ -13,7 +13,6 @@ const CollectionsComponent = ({ collectionName }: { collectionName: string }) =>
 
     // fetch Collection Data
     useEffect(() => {
-
         const fetchCollection = async () => {
             const res = await fetch(`/api/collections/show?name=${collectionName}`, { cache: 'no-store' })
             if (!res.ok) throw new Error('Could not fetch colection from server')
@@ -30,13 +29,11 @@ const CollectionsComponent = ({ collectionName }: { collectionName: string }) =>
 
     return ( 
         <div className="max-w-7xl mx-auto py-10 px-4">
-            {collection.length > 1 ? (
-                <h1 className="text-2xl font-semibold mb-8">All Collections</h1>
-            ) : (
-                <h1 className="text-2xl font-semibold mb-8">
-                    {Capitalize(collectionName).replace("-", " ")} Collection
-                </h1>
-            )}
+            
+            <h1 className="text-2xl font-semibold mb-8">
+                {Capitalize(collectionName).replace("-", " ")} Collection
+            </h1>
+       
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 {allCollections && allCollections.map((col) => (
                     <div key={col.id} className="flex flex-col h-full border border-slate-100 overflow-hidden hover:scale-105 hover:shadow-xl cursor-pointer">

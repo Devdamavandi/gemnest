@@ -30,7 +30,8 @@ export const productSchema = z.object({
         id: z.string(),
         name: z.string()
     }).optional(),
-    collectionTags: z.string().optional()
+    collectionTags: z.array(z.string().optional()),
+    shippingInfo: z.string().optional()
 })
 
 export const categorySchema = z.object({
@@ -39,11 +40,33 @@ export const categorySchema = z.object({
     products: z.array(productSchema)
 })
 
+export const userSchema = z.object({
+    id: z.string().optional(),
+    name: z.string(),
+    email: z.string(),
+    image: z.string().optional(),
+    role: z.string().optional(),
+    reviews: z.array(z.string()).optional(),
+    wishlist: z.array(z.string()).optional(),
+    addresses: z.array(z.string()).optional(),
+    orders: z.array(z.string()).optional(),
+    carts: z.array(z.string()).optional()
+})
+
+export const reviewSchema = z.object({
+    id: z.string(),
+    rating: z.number(),
+    comment: z.string().optional(),
+    user: userSchema,
+    userId: z.string(),
+    product: productSchema,
+    productId: z.string()
+})
 
 export type ProductSchema = z.infer<typeof productSchema>
 export type CategorySchema = z.infer<typeof categorySchema>
-
-
+export type UserSchema = z.infer<typeof userSchema>
+export type ReveiewSchema = z.infer<typeof reviewSchema>
 
 
 

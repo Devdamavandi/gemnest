@@ -6,6 +6,7 @@
     import { CategorySchema } from "@/types/zod"
     import { useEffect, useState } from "react"
 import ProductCard from "./productCard"
+import BreadCrumb from "./breadcrumb"
 
 
     const CategoryProductsPage = ({categoryName}: { categoryName: string }) => {
@@ -30,14 +31,17 @@ import ProductCard from "./productCard"
         const allProducts = categories.flatMap(cat => cat.products || [])
 
         return ( 
-            <div className="max-w-7xl mx-auto py-10 px-4">
+            <div className="max-w-7xl mx-auto py-4 px-4">
                 {categories.length > 1 ? (
                     <h1 className="text-2xl font-semibold mb-8">All Categories</h1>
                 ) : (
-                    <h1 className="text-2xl font-semibold mb-8">
+                    <h1 className="text-2xl font-semibold mb-2">
                         {Capitalize(categories[0]?.name)} Category
                     </h1>
                 )}
+                <div className="py-4">
+                    <BreadCrumb />
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 {allProducts && allProducts.map((product) => (
                     <div key={product.id} className="mb-16">

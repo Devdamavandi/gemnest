@@ -28,6 +28,7 @@ const ProductCard = ({ product }: { product: ProductSchema  }) => {
                         alt="placeholder image"
                         fill
                         className="object-cover"
+                        priority
                     />  
                 )}
             </div>
