@@ -13,6 +13,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import BasketPopover from '@/components/basketPopover'
 import { ProductSchema } from "@/types/zod";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
+
 
 const MenubarComponent = () => {
 
@@ -69,22 +72,24 @@ const MenubarComponent = () => {
         fetchAllDiamondShapes()
     },[])
 
-
+    const [drawerOpen, setDrawerOpen] = useState(false) 
 
     return ( 
         <div 
-            className={`group h-28 shadow w-screen flex items-center z-50 relative`} 
+            className={`group h-16 md:h-28 shadow w-full flex items-center z-50 relative`} 
 
             >
 
             {/* Left Nav */}
-            <nav className="flex-1 z-50">
-                <h1 className={`${cinzel.className} text-7xl pl-4 tracking-wide`}>G<span className="text-4xl">emnest</span></h1>
+            <nav className="flex-1 z-50 hidden md:block">
+                <Link href={'/'}>
+                    <h1 className={`${cinzel.className} text-7xl pl-4 tracking-wide`}>G<span className="text-4xl">emnest</span></h1>
+                </Link>
             </nav>
             
             
             {/* Middle Nav */}
-            <div className="flex-8 text-center relative z-45" onMouseLeave={() => setSelectedIndex(-1)}>
+            <div className="flex-8 text-center relative z-45 hidden md:block" onMouseLeave={() => setSelectedIndex(-1)}>
                 <TabGroup selectedIndex={selectedIndex ?? 0} onChange={setSelectedIndex}>
                     <TabList className={'flex justify-center gap-4 font-medium text-xxs tracking-wider'}>
                         {['JEWELRY', 'LOVE & ENGAGEMENT', 'FINE WATCHES', 'ACCESSORIES', 'GIFTS'].map((tab, idx) => (
@@ -363,9 +368,8 @@ const MenubarComponent = () => {
                 </AnimatePresence>
             </div>
 
-
             {/* Right Nav */}
-            <nav className="flex-1">
+            <nav className="flex-1 hidden md:block">
                 <ul className="flex items-center space-x-2">
                     {/* Profile */}
                     <li>
@@ -394,11 +398,303 @@ const MenubarComponent = () => {
                     </li>
 
                     {/* Shopping Cart */}
-                    <li className=" text-red-500">
-                        <BasketPopover />
+                    <li className="text-red-500">
+                        <span className="">
+                            <BasketPopover w={9} h={9}/>
+                        </span>
                     </li>
                 </ul>
             </nav>
+
+            {/* Mobile Menu */}
+            <div className="flex flex-5 justify-between mx-2 items-center md:hidden">
+
+                {/* Hamburger Menu for Mobile Devices */}
+                <div className="flex-3">
+                    <button onClick={() => setDrawerOpen(true)}>
+                        <RxHamburgerMenu size={26}/>
+                    </button>
+                </div>
+
+                {/* MOBILE DRAWER MENU */}
+                <AnimatePresence>
+                    {drawerOpen && (
+                        <div className="fixed inset-0 z-40">
+                            {/* dim layer: closes drawer when */}
+                            <div 
+                                className="absolute  inset-0 bg-black/55"
+                                onClick={() => setDrawerOpen(false)}
+                            />
+                            <motion.div
+                                initial={{ x: "-100%" }}
+                                animate={{ x: 0 }}
+                                exit={{ x: "-100%" }}
+                                transition={{ duration: 0.3 }}
+                                className="fixed top-0 left-0 w-72 h-full bg-white shadow-xl p-4 z-999 overflow-y-auto md:hidden"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                {/* CLOSE BUTTON */}
+                                <button className="text-2xl mb-6" onClick={() => setDrawerOpen(false)}>
+                                    <RxHamburgerMenu size={26}/>
+                                </button>
+                                {/* ACCORDION MENU */}
+                                <div className="">
+                                    {/* Drawer LOGO */}
+                                    <Link href={'/'}>
+                                        <h1 className={`${cinzel.className} text-7xl pl-4 tracking-wide`}>G<span className="text-4xl">emnest</span></h1>
+                                    </Link>
+                                    {/* JEWELRY */}
+                                    <Accordion type="single" collapsible className="w-full">
+                                        <AccordionItem value="jewelry">
+                                            <AccordionTrigger className="text-lg">Jewelry</AccordionTrigger>
+                                            <AccordionContent className="pl-2">
+                            
+                                                {/* CHILD ACCORDIONS */}
+                                                <Accordion type="single" collapsible>
+                                                    {/* Categories */}
+                                                    <AccordionItem value="categories">
+                                                        <AccordionTrigger className="text-base">Categories</AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                                <li><Link href={'/categories/necklaces'}>Necklaces & Pendants</Link></li>
+                                                                <li><Link href={'/categories/bracelets'}>Bracelets</Link></li>
+                                                                <li><Link href={'/categories/earrings'}>Earrings</Link></li>
+                                                                <li><Link href={'/categories/rings'}>Rings</Link></li>
+                                                                <li><Link href={'/categories/brooches'}>Brooches</Link></li>
+                                                                <li><Link href={'/categories/silver-jewelry'}>Silver Jewelry</Link></li>
+                                                                <li><Link href={'/categories/men-jewelry'}>{`Men's Jewelry`}</Link></li>
+                                                                <li><Link href={'/categories/all'}>All</Link></li>
+                                                            </ul>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                    {/* Collections */}
+                                                    <AccordionItem value="collections">
+                                                        <AccordionTrigger className="text-base">Collections</AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                                <li><Link href={'/categories/timeless-treasures'}>Timeless Treasures</Link></li>
+                                                                <li><Link href={'/categories/sapphire-sparkle'}>Sapphire Sparkle</Link></li>
+                                                                <li><Link href={'/categories/ethereal-elegance'}>Ethereal Elegance</Link></li>
+                                                                <li><Link href={'/categories/jewelia'}>Jewelia</Link></li>
+                                                                <li><Link href={'/categories/all'}>All</Link></li>
+                                                            </ul>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                    {/* Featured */}
+                                                    <AccordionItem value="featured">
+                                                    <AccordionTrigger className="text-base">Featured</AccordionTrigger>
+                                                    <AccordionContent>
+                                                        <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                        <li><Link href="#">New Jewelry</Link></li>
+                                                        <li><Link href="#">Most Popular Jewelry</Link></li>
+                                                        <li><Link href="#">Online Exclusives</Link></li>
+                                                        </ul>
+                                                    </AccordionContent>
+                                                    </AccordionItem>
+                                                </Accordion>
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    </Accordion>
+                                    {/* LOVE & ENGAGEMENT */}
+                                    <Accordion type="single" collapsible className="w-full">
+                                        <AccordionItem value="love-engagement">
+                                            <AccordionTrigger className="text-lg">LOVE & ENGAGEMENT</AccordionTrigger>
+                                            <AccordionContent className="pl-2">
+                                                {/* CHILD ACCORDION */}
+                                                <Accordion type="single" collapsible>
+                                                    {/* ENGAGEMENT RINGS */}
+                                                    <AccordionItem value="Engagement rings">
+                                                        <AccordionTrigger className="text-base">Engagement Rings</AccordionTrigger>
+                                                        {/* ENGAGEMENT RINGS */}
+                                                        <AccordionContent>
+                                                            <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                                <li><Link href={'/products/rings/the-veda-ring'}>The veda Ring</Link></li>
+                                                                <li><Link href={'/products/rings/linda-comfort-fit'}>Linda 1.5mm Comfor Fi</Link></li>
+                                                                <li><Link href={'/products/rings/peggy-compass-set-cathedral-engagement-ring'}>The Peggy Compass set</Link></li>
+                                                                <li><Link href={'/products/rings/florence-solitaire-bypass'}>Florence Solitaire Bypass</Link></li>
+                                                                <li><Link href={'/products/rings/gemnest-free-stone'}>Gemnest Free Stone</Link></li>
+                                                            </ul>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                    {/* WEDDING BANDS */}
+                                                    <AccordionItem value="Wedding Bands">
+                                                        <AccordionTrigger className="text-base">Wedding Bands</AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                                <li><Link href={'/collections/women'}>{`Women's Wedding Bands`}</Link></li>
+                                                                <li><Link href={'/collections/men'}>{`Men's Wedding Bands`}</Link></li>
+                                                                <li><Link href={'/collections/couples'}>{`Couples Rings`}</Link></li>
+                                                                <li><Link href={'/collections/eternity'}>{`Eternity Rings`}</Link></li>
+                                                            </ul>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                    {/* DIAMOND SHAPES */}
+                                                    <AccordionItem value="Diamond Shapes">
+                                                        <AccordionTrigger className="text-base">Diamond Shapes</AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                                <li><Link href={'/collections/round-brilliant'}>{`Round Brilliant`}</Link></li>
+                                                                <li><Link href={'/collections/oval'}>{`Oval`}</Link></li>
+                                                                <li><Link href={'/collections/princess'}>{`Princess`}</Link></li>
+                                                                <li><Link href={'/collections/emerald'}>{`Emerald`}</Link></li>
+                                                                <li><Link href={'/collections/cushion'}>{`Cushion`}</Link></li>
+                                                            </ul>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                    {/* RING SETTINGS */}
+                                                    <AccordionItem value="Ring Settings">
+                                                        <AccordionTrigger className="text-base">Ring Settings</AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                                <li><Link href={'/collections/three-stone'}>{`Three Stone`}</Link></li>
+                                                            </ul>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                </Accordion>
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    </Accordion>
+                                     {/* FINE WATCHES */}
+                                    <Accordion type="single" collapsible className="w-full">
+                                        <AccordionItem value="fine-watches">
+                                            <AccordionTrigger className="text-lg">Fine Watches</AccordionTrigger>
+                                            <AccordionContent className="pl-2">
+                            
+                                                {/* CHILD ACCORDIONS */}
+                                                <Accordion type="single" collapsible>
+                                                    {/* SHOP BY CATEGORY */}
+                                                    <AccordionItem value="categories">
+                                                        <AccordionTrigger className="text-base">Shop By Category</AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                                <li><Link href={'/categories/womenwatches'}>{`Women's Watches`}</Link></li>
+                                                                <li><Link href={'/categories/menwatches'}>{`Men's Watches`}</Link></li>
+                                                                <li><Link href={'/categories/patekphilippe'}>{`Men's Watches`}</Link></li>
+                                                                <li><Link href={'/categories/allfinewatches'}>{`All Fine Watches`}</Link></li>
+                                                            </ul>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                    {/* CURATED SHOPS */}
+                                                    <AccordionItem value="collections">
+                                                        <AccordionTrigger className="text-base">Curated Shops</AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                                <li><Link href={'#'}>Gemnest Blue Watches</Link></li>
+                                                                <li><Link href={'#'}>Diamond Watches</Link></li>
+                                                                <li><Link href={'#'}>Gold Wathces</Link></li>
+                                                                <li><Link href={'#'}>Stainless Steel Watches</Link></li>
+                                                                <li><Link href={'#'}>Time Objects</Link></li>
+                                                            </ul>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                    {/* SHOP BY COLLECTION */}
+                                                    <AccordionItem value="featured">
+                                                    <AccordionTrigger className="text-base">Shop By Collection</AccordionTrigger>
+                                                    <AccordionContent>
+                                                        <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                        <li><Link href="#">Gemnest Hardwear</Link></li>
+                                                        <li><Link href="#">Gemnest Eternity</Link></li>
+                                                        <li><Link href="#">Union Square</Link></li>
+                                                        <li><Link href="#">Gemnest Rope</Link></li>
+                                                        <li><Link href="#">High Jewelry Watches</Link></li>
+                                                        </ul>
+                                                    </AccordionContent>
+                                                    </AccordionItem>
+                                                </Accordion>
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    </Accordion>
+                                     {/* ACCESSORIES */}
+                                    <Accordion type="single" collapsible className="w-full">
+                                        <AccordionItem value="accessories">
+                                            <AccordionTrigger className="text-lg">Accessories</AccordionTrigger>
+                                            <AccordionContent className="pl-2">
+                            
+                                                {/* CHILD ACCORDIONS */}
+                                                <Accordion type="single" collapsible>
+                                                    {/* SHOP BY CATEGORY */}
+                                                    <AccordionItem value="accessories">
+                                                        <AccordionTrigger className="text-base">Leather Goods</AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                                <li><Link href={'#'}>{`Bags`}</Link></li>
+                                                                <li><Link href={'#'}>{`Small Leather Goods`}</Link></li>
+                                                            </ul>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                    {/* CURATED SHOPS */}
+                                                    <AccordionItem value="collections">
+                                                        <AccordionTrigger className="text-base">Curated Shops</AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                                <li><Link href={'#'}>{`Women's Accessories`}</Link></li>
+                                                                <li><Link href={'#'}>{`Men's Accessories`}</Link></li>
+                                                                <li><Link href={'#'}>{`Pet Accessories`}</Link></li>
+                                                            </ul>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                    {/* SHOP BY COLLECTION */}
+                                                    <AccordionItem value="featured">
+                                                    <AccordionTrigger className="text-base">Accessories</AccordionTrigger>
+                                                    <AccordionContent>
+                                                        <ul className="flex flex-col gap-2 text-sm pl-2">
+                                                        <li><Link href="#">Sunglasses</Link></li>
+                                                        <li><Link href="#">Key Rings</Link></li>
+                                                        <li><Link href="#">Scarves & Stoles</Link></li>
+                                                        <li><Link href="#">Belts</Link></li>
+                                                        <li><Link href="#">Fragrance</Link></li>
+                                                        </ul>
+                                                    </AccordionContent>
+                                                    </AccordionItem>
+                                                </Accordion>
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    </Accordion>
+                                    {/* Wishlist */}
+                                    <div className="flex flex-col mt-4 space-y-6 text-lg font-semibold">
+                                        <Link href={'#'}>Wishlist</Link>
+                                        <Link href={'#'}>Sign in</Link>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
+
+                {/* Right Nav */}
+                <nav className="flex-1">
+                    <ul className="flex items-center space-x-2">
+                        {/* Profile */}
+                        <li>
+                            <Link href={'/profile'}>
+                                <Image
+                                    src={'/images/user-profile-avatar.svg'}
+                                    alt="User profile Icon"
+                                    width={20}
+                                    height={20}
+                                    className="cursor-pointer"
+                                />
+                            </Link>
+                        </li>
+                        {/* Wishlist Icon */}
+                        <li>
+                            <Link href={'/wishlist'}>
+                                <Image
+                                    src={'/images/heart-icon.svg'}
+                                    alt="Wishlist Heart Icon"
+                                    width={20}
+                                    height={20}
+                                    className="cursor-pointer "
+                                />
+                            </Link>
+                        </li>
+                        {/* Shopping Cart */}
+                        <li className=" text-red-500">
+                            <BasketPopover w={7} h={7}/>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
 
         </div>
      )

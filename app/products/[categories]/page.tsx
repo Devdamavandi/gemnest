@@ -46,7 +46,8 @@ const safeCatProducts = catProducts?.products?.map(scp => ({
         : {}, // same fix as before
     categoryId: scp.categoryId ?? "",
     category: catProducts ? { id: catProducts.id, name: catProducts.name } : undefined,
-    collectionTags: scp.collectionTags ?? []
+    collectionTags: scp.collectionTags ?? [],
+    averageRating: scp.averageRating ?? 0
 }))
     
     return ( 

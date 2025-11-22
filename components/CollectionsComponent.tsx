@@ -35,8 +35,8 @@ const CollectionsComponent = ({ collectionName }: { collectionName: string }) =>
             </h1>
        
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                {allCollections && allCollections.map((col) => (
-                    <div key={col.id} className="flex flex-col h-full border border-slate-100 overflow-hidden hover:scale-105 hover:shadow-xl cursor-pointer">
+                {allCollections && allCollections.map((col, index) => (
+                    <div key={col.id ?? index} className="flex flex-col h-full border border-slate-100 overflow-hidden hover:scale-105 hover:shadow-xl cursor-pointer">
                         {/* Product Image */}
                         <div className="relative w-full aspect-square">
                             {col.images && col.images[0] && (

@@ -2,8 +2,10 @@
 
 import { z } from 'zod'
 
-
-export const productSchema = z.object({
+// I Used z.lazy to reference later schemas like categorySchema or reviewSchema
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const productSchema: z.ZodType<any> = z.lazy(() =>
+    z.object({
     id: z.string().optional(),
     name: z.string(),
     slug: z.string(),
@@ -26,19 +28,22 @@ export const productSchema = z.object({
     dimensions: z.string().optional(),
     discount: z.number(),
     categoryId: z.string().optional(),
-    category: z.object({
-        id: z.string(),
-        name: z.string()
-    }).optional(),
+    category: categorySchema.optional(),
     collectionTags: z.array(z.string().optional()),
-    shippingInfo: z.string().optional()
-})
+    shippingInfo: z.string().optional(),
+    reviews: reviewSchema,
+    averageRating: z.number().int()
+    })
+)
 
-export const categorySchema = z.object({
+
+export const categorySchema = z.lazy(() =>
+    z.object({
     id: z.string(),
     name: z.string(),
-    products: z.array(productSchema)
+    products: z.array(productSchema).optional()
 })
+)
 
 export const userSchema = z.object({
     id: z.string().optional(),
@@ -53,7 +58,8 @@ export const userSchema = z.object({
     carts: z.array(z.string()).optional()
 })
 
-export const reviewSchema = z.object({
+export const reviewSchema = z.lazy(() => 
+    z.object({
     id: z.string(),
     rating: z.number(),
     comment: z.string().optional(),
@@ -62,6 +68,7 @@ export const reviewSchema = z.object({
     product: productSchema,
     productId: z.string()
 })
+)
 
 export type ProductSchema = z.infer<typeof productSchema>
 export type CategorySchema = z.infer<typeof categorySchema>

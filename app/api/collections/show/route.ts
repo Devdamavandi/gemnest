@@ -12,7 +12,9 @@ export async function GET(req: Request) {
 
     // Select All products in All Collections
     if (name === "all") {
-        const allCollections = await prisma.product.findMany()
+        const allCollections = await prisma.product.findMany({
+            include: { category: true }
+        })
         return NextResponse.json(allCollections)
     }
 

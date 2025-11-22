@@ -2,12 +2,12 @@
 
 'use client'
 
-import { usePathname } from "next/navigation";
+import LayoutClient from "@/components/LayoutClient";
 // import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/providers/provider";
-import MenubarComponent from "@/components/menubar";
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 // const metadata: Metadata = {
 //   title: "Gemnest - Luxury Jewelry Online Store",
@@ -36,12 +36,7 @@ import MenubarComponent from "@/components/menubar";
 //   }
 // };
 
-const NoNavRoutes = [
-  "/signin",
-  "/signup",
-  "/portfolio",
-  "/dashboard"
-]
+
 
 
 export default function RootLayout({
@@ -50,18 +45,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const pathname = usePathname()
   
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body
         className={`w-full min-h-screen overflow-x-hidden`}
       >
         <Providers>
-          {!NoNavRoutes.some(route => pathname.startsWith(route)) && <MenubarComponent />}
-          <main>
-            {children}
-          </main>
+          <LayoutClient>
+            <main>
+              {children}
+            </main>
+          </LayoutClient>
         </Providers>
       </body>
     </html>

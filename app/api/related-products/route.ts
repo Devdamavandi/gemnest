@@ -13,10 +13,9 @@ export async function GET(req: Request) {
 
     const related = await prisma.product.findMany({
         where: { 
-            category: { 
-                name: category
-            }
-        }
+            category: { name: category }
+        },
+        include: { category: true }
     })
 
     if (!related) return NextResponse.json({ error: 'No related products found!' }, { status: 404 })

@@ -14,18 +14,16 @@ export default async function ProductPage({ params }: { params: { categories: st
 
     if (!slug) notFound()
 
-    const product = await prisma.product.findUnique({
+    const product = await prisma.product.findFirst({
         where: { 
             slug,
             category: { name: { equals: categories, mode: 'insensitive' } }
          },
         include: {
             orderItems: true,
-            category: {
-                select: { name: true }
-            },
+            category: { select: { name: true } },
             reviews: { 
-                include: { product: true, user: true }
+                include: { user: true }
             }
         }
     })
@@ -58,7 +56,9 @@ export default async function ProductPage({ params }: { params: { categories: st
         categoryId: product.categoryId ?? "",
         shippingInfo: product.shippingInfo ?? "",
         category: product.category ? { id: product.categoryId, name: product.category.name } : undefined,
-        collectionTags: product.collectionTags ?? []
+        collectionTags: product.collectionTags ?? [],
+        reviews: product?.reviews ?? [],
+        averageRating: product?.averageRating ?? 0
     }
 
     return (

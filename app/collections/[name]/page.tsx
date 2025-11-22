@@ -3,16 +3,17 @@
 'use client'
 
 import CollectionsComponent from "@/components/CollectionsComponent"
+import { useParams } from "next/navigation"
 import { use } from "react"
 
 
-interface Props {
-    params: Promise<{ name: string }>
-}
 
-const CollectionsPage = ({ params }: Props) => {
 
-    const { name } = use(params)
+const CollectionsPage = () => {
+
+    const params = useParams()
+    // Its Needed to force the name to a string Becasue The Component expects a string
+    const name = Array.isArray(params.name) ? params.name[0] : params.name || ""
 
     return (
         <div className="w-full min-h-screen">
